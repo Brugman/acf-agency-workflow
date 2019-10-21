@@ -7,6 +7,9 @@
 
 /**
  * Todo:
+ * - Prevent/delete duplicate JSON when changing location.
+ * - Prevent saving of json path inside the JSON.
+ * - Set default FG settings.
  */
 
 if ( !defined( 'ABSPATH' ) )
