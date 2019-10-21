@@ -7,7 +7,7 @@
 
 /**
  * Todo:
- * - Prevent saving of json path inside the DB.
+ * - Prevent saving of json path inside the DB. (acf/validate_field_group?)
  * - Set default FG settings.
  */
 
