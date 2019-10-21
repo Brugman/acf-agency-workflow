@@ -8,7 +8,6 @@
 /**
  * Todo:
  * - Prevent/delete duplicate JSON when changing location.
- * - Prevent saving of json path inside the JSON.
  * - Set default FG settings.
  */
 
@@ -107,4 +106,16 @@ add_filter( 'page_row_actions', function ( $actions, $post ) {
     return $actions;
 
 }, 10, 2 );
+
+/**
+ * Remove save path value before it gets written to JSON.
+ */
+
+add_filter( 'acf/prepare_field_group_for_export', function ( $field_group ) {
+
+    if ( isset( $field_group['json_save_path'] ) )
+        unset( $field_group['json_save_path'] );
+
+    return $field_group;
+});
 
