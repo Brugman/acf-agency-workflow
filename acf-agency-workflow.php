@@ -7,17 +7,14 @@
 
 /**
  * Todo:
- * - make deleting a field group also delete the json
  */
 
 if ( !defined( 'ABSPATH' ) )
     exit;
 
-// temp
 include 'helpers.php';
 include 'functions.php';
 
-// vars
 $aaw_feedback = [];
 
 /**
@@ -52,7 +49,7 @@ add_action( 'admin_notices', function () {
 });
 
 /**
- * Automatic JSON sync.
+ * Respond to JSON changes.
  */
 
 add_action( 'admin_init', function () {
@@ -107,10 +104,4 @@ add_filter( 'page_row_actions', function ( $actions, $post ) {
     return $actions;
 
 }, 10, 2 );
-
-/**
- * Testing.
- */
-
-
 

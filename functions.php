@@ -35,41 +35,41 @@ function aaw_act_on_added_json()
 
 function aaw_get_unsynced_field_groups()
 {
-    // get all fg, also the unsynced json ones
+    // Get all fg, also the unsynced json ones.
     $groups = acf_get_field_groups();
-    // no fg? no sync
+    // No fg? No sync needed.
     if ( empty( $groups ) )
         return false;
-    // new array
+
     $unsynced_groups = [];
-    // loop
+
     foreach ( $groups as $group )
     {
         // TODO: double check acf_maybe_get
 
-        // not local? no sync needed
+        // Not local? No sync needed.
         if ( !isset( $group['local'] ) )
             continue;
-        // not json? no sync needed
+        // Not json? No sync needed.
         if ( $group['local'] !== 'json' )
             continue;
-        // no id? sync needed!
+        // No id? Sync needed!
         if ( !$group['ID'] )
             $unsynced_groups[ $group['key'] ] = $group;
-        // id but newer than the db? sync needed!
+        // Has ID, but modified date is newer than the db? Sync needed!
         if ( $group['ID'] && $group['modified'] && $group['modified'] > get_post_modified_time( 'U', true, $group['ID'], true ) )
             $unsynced_groups[ $group['key'] ] = $group;
     }
-    // empty sync list? no sync needed
+    // Empty sync list? No sync needed.
     if ( empty( $unsynced_groups ) )
         return false;
-    // return unsynced groups
+
     return $unsynced_groups;
 }
 
 function aaw_sync_field_groups( $unsynced_groups = [] )
 {
-    // required stuff copied from ACF
+    // Required stuff copied from ACF.
     acf_disable_filters();
     acf_enable_filter( 'local' );
     acf_update_setting( 'json', false );
@@ -78,9 +78,9 @@ function aaw_sync_field_groups( $unsynced_groups = [] )
 
     foreach ( $unsynced_groups as $group )
     {
-        // add the fields
+        // Add the fields.
         $group['fields'] = acf_get_fields( $group );
-        // sync
+        // Sync.
         $synced_groups[] = acf_import_field_group( $group );
     }
 
