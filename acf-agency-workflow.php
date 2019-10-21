@@ -151,20 +151,20 @@ add_action( 'acf/render_field_group_settings', function ( $field_group ) {
 
 $global_preferred_save_path = false;
 
-add_action( 'acf/update_field_group', function ( $group ) {
+add_action( 'acf/update_field_group', function ( $field_group ) {
 
     // Delete JSON cache for this field group.
-    aaw_delete_field_group_from_json( $group['key'] );
+    aaw_delete_field_group_from_json( $field_group['key'] );
 
     // Reset save location.
     global $global_preferred_save_path;
     $global_preferred_save_path = false;
 
     // Store save location.
-    if ( isset( $group['json_save_path'] ) && $group['json_save_path'] != 'default' )
-        $global_preferred_save_path = $group['json_save_path'];
+    if ( isset( $field_group['json_save_path'] ) && $field_group['json_save_path'] != 'default' )
+        $global_preferred_save_path = $field_group['json_save_path'];
 
-    return $group;
+    return $field_group;
 
 }, 1, 1 );
 
