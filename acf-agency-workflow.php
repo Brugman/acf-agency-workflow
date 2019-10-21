@@ -7,6 +7,7 @@
 
 /**
  * Todo:
+ * - Prevent saving of json path inside the DB.
  * - Set default FG settings.
  */
 
