@@ -161,8 +161,23 @@ function aaw_delete_field_groups_from_db( $keys = [] )
 
     foreach ( $keys as $key )
         acf_delete_field_group( $key );
+}
 
-    // foreach ( $keys as $key )
-        // acf_trash_field_group( $key );
+function aaw_delete_field_group_from_json( $key = false )
+{
+    if ( !$key )
+        return;
+
+    $load_dirs = acf_get_setting('load_json');
+
+    if ( empty( $load_dirs ) )
+        return;
+
+    foreach ( $load_dirs as $load_dir )
+    {
+        $current_path = $load_dir.'/'.$key.'.json';
+        if ( file_exists( $current_path ) )
+            unlink( $current_path );
+    }
 }
 

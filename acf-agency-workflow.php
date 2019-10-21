@@ -81,28 +81,36 @@ add_action( 'admin_init', function () {
     aaw_act_on_removed_json();
 });
 
+/**
+ * Respond to Field Group Editor changes.
+ */
 
+add_action( 'acf/delete_field_group', function ( $field_group ) {
+    // Delete field group from JSON.
+    aaw_delete_field_group_from_json( $field_group['key'] );
+});
 
-
-
-
-
-
-
-
-// testing
+/**
+ * Replace the FG trash buttons with delete buttons.
+ */
 
 add_filter( 'page_row_actions', function ( $actions, $post ) {
 
     if ( $post->post_type == 'acf-field-group' )
     {
-        // remmove trash
+        // Remove trash.
         unset( $actions['trash'] );
-        // add delete
+        // Add delete.
         $actions['delete'] = '<a href="'.get_delete_post_link( $post->ID, '', true ).'" aria-label="Delete “'.$post->post_title.'” permanently">'.__( 'Delete Permanently' ).'</a>';
     }
 
     return $actions;
 
 }, 10, 2 );
+
+/**
+ * Testing.
+ */
+
+
 
