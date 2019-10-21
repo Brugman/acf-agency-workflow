@@ -7,8 +7,11 @@
 
 /**
  * Todo:
- * - Prevent saving of json path inside the DB. (acf/validate_field_group?)
+ * - Prevent saving of json path inside the DB.
+ *     acf/validate_field_group?
+ *     If we unset here it's already gone at update_field_group.
  * - Set default FG settings.
+ *     Impossible? No filter in acf-field-group-functions.php line 208.
  */
 
 if ( !defined( 'ABSPATH' ) )
