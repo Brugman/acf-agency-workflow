@@ -7,7 +7,6 @@
 
 /**
  * Todo:
- * - Prevent/delete duplicate JSON when changing location.
  * - Set default FG settings.
  */
 
@@ -106,6 +105,83 @@ add_filter( 'page_row_actions', function ( $actions, $post ) {
     return $actions;
 
 }, 10, 2 );
+
+/**
+ * Display JSON save locations list.
+ */
+
+add_action( 'acf/render_field_group_settings', function ( $field_group ) {
+
+    $choices = [ 'default' => 'Default' ];
+
+    $path_to_plugins = dirname( dirname( __FILE__ ) );
+    $path_to_themes = dirname( get_stylesheet_directory() );
+
+    $load_dirs = acf_get_setting('load_json');
+
+    foreach ( $load_dirs as $load_dir )
+    {
+        $display_title = $load_dir;
+        if ( strpos( $load_dir, $path_to_plugins ) !== false )
+            $display_title = 'Plugin: '.substr( str_replace( $path_to_plugins, '', $load_dir ), 1 );
+        if ( strpos( $load_dir, $path_to_themes ) !== false )
+            $display_title = 'Theme: '.substr( str_replace( $path_to_themes, '', $load_dir ), 1 );
+
+        $choices[ $load_dir ] = $display_title;
+
+        if ( file_exists( $load_dir.'/'.$field_group['key'].'.json' ) )
+            $load_dir_selected = $load_dir;
+    }
+
+    acf_render_field_wrap([
+        'label'        => 'JSON Save Path',
+        'instructions' => 'Determines where the field group\'s JSON file will be saved.',
+        'type'         => 'select',
+        'name'         => 'json_save_path',
+        'prefix'       => 'acf_field_group',
+        'value'        => $load_dir_selected ?? 'default',
+        'choices'      => $choices,
+    ]);
+});
+
+/**
+ * Get selected JSON save location.
+ */
+
+$global_preferred_save_path = false;
+
+add_action( 'acf/update_field_group', function ( $group ) {
+
+    // Delete JSON cache for this field group.
+    aaw_delete_field_group_from_json( $group['key'] );
+
+    // Reset save location.
+    global $global_preferred_save_path;
+    $global_preferred_save_path = false;
+
+    // Store save location.
+    if ( isset( $group['json_save_path'] ) && $group['json_save_path'] != 'default' )
+        $global_preferred_save_path = $group['json_save_path'];
+
+    return $group;
+
+}, 1, 1 );
+
+/**
+ * Set selected JSON save location.
+ */
+
+add_action( 'acf/settings/save_json', function ( $path ) {
+
+    global $global_preferred_save_path;
+
+    // Set save location.
+    if ( $global_preferred_save_path )
+        return $global_preferred_save_path;
+
+    return $path;
+
+}, 999 );
 
 /**
  * Remove save path value before it gets written to JSON.
