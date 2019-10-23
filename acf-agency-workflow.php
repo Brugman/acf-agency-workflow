@@ -3,6 +3,11 @@
 /**
  * Plugin Name: ACF Agency Workflow
  * Description: Tweak ACF for a better team-based development workflow.
+ * Version: 1.0.0
+ * Plugin URI: https://github.com/Brugman/acf-agency-workflow
+ * Author: Tim Brugman
+ * Author URI: https://timbr.dev/
+ * Text Domain: acf-agency-workflow
  */
 
 /**
