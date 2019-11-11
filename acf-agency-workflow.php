@@ -162,6 +162,10 @@ $global_preferred_save_path = false;
 
 add_action( 'acf/update_field_group', function ( $field_group ) {
 
+    // Skip everything if this is not a FGE location move.
+    if ( !isset( $field_group['json_save_path'] ) )
+        return $field_group;
+
     // Delete JSON cache for this field group.
     aaw_delete_field_group_from_json( $field_group['key'] );
 
@@ -170,7 +174,7 @@ add_action( 'acf/update_field_group', function ( $field_group ) {
     $global_preferred_save_path = false;
 
     // Store save location.
-    if ( isset( $field_group['json_save_path'] ) && $field_group['json_save_path'] != 'default' )
+    if ( $field_group['json_save_path'] != 'default' )
         $global_preferred_save_path = $field_group['json_save_path'];
 
     return $field_group;
