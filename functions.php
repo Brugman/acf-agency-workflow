@@ -35,9 +35,9 @@ function aaw_act_on_added_json()
 
 function aaw_get_unsynced_field_groups()
 {
-    // Get all fg, also the unsynced json ones.
+    // Get all FGs, also the unsynced json ones.
     $groups = acf_get_field_groups();
-    // No fg? No sync needed.
+    // No FGs? No sync needed.
     if ( empty( $groups ) )
         return false;
 
