@@ -12,6 +12,7 @@
 
 /**
  * Todo:
+ * - New JSON files get instantly deleted.
  * - Prevent saving of json path inside the DB.
  *     acf/validate_field_group?
  *     If we unset here it's already gone at update_field_group.
