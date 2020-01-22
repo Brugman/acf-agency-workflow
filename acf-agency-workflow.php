@@ -22,7 +22,6 @@
 if ( !defined( 'ABSPATH' ) )
     exit;
 
-include 'helpers.php';
 include 'functions.php';
 
 $aaw_feedback = [];
