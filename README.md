@@ -8,7 +8,7 @@ You already separate your website's looks from it's functionality. You should do
 
 ### Fields are in your Git repo.
 
-You collaborate using git. So we've made the ACF JSON *cache* the source of truth. How? Your JSON files get forcefully synced to your database when an administrator loads the Dashboard or Field Groups page. If you've made changes to field, then you have JSON changes to commit.
+You collaborate using git. So we've made the ACF JSON *cache* the source of truth. How? Your JSON files get forcefully synced to your database when an administrator loads the Dashboard or Field Groups page. If you've added, modified or deleted a field, then you have something to commit.
 
 ### Fields are managed by developers on local with the Field Group Editor.
 
@@ -19,10 +19,10 @@ Developers manage the fields locally. Nobody else, nowhere else. Period. Your st
 ## For your information
 
 - You can safely move existing Field Groups to a new location by editing them and setting a new JSON Save path.
-- Do not rename Field Group JSON files. For better performance this plugin grabs the Key from the filename, not from the inside of the file. (`group_5e287670568af.json`) Traditionally you could rename the JSON files and the Field Groups would still work.
-- Remove and stop using `"private": true,` in your JSON. It's incompatible with this plugin.
-- There is no Field Group Trash anymore. The Field Group Trash link has been replaced with a Delete Permanently link. Traditional Trash has no JSON file, so it would get purged from the database by the sync functionality. To avoid confusion about this, it's been replaced with a Delete link.
-- The Field Groups backend *menu link* has been removed on non-local environments to deter use. The page is still available however, if you visit `/edit.php?post_type=acf-field-group`.
+- Do not rename Field Group JSON files. For better performance this plugin grabs the Key from the filename, not from the inside of the file. The Key inside `group_5e287670568af.json` is *group_5e287670568af*, by default. Traditionally you could rename the JSON files and the Field Groups would still work.
+- Remove and stop using `"private": true,` in your JSON. It will break this plugin. For the same-ish result, we hide the menu link instead.
+- There is no Field Group Trash anymore. The Field Group Trash link has been replaced with a Delete Permanently link. Traditional Trash has no JSON file, so it would get purged from the database by the sync functionality. To avoid confusion about this, Trash has been replaced with a Delete link.
+- The Field Groups backend *menu link* has been removed on non-local environments to deter use. The page is still available however, if you visit the URL directly.
 
 ## Usage examples
 
@@ -41,7 +41,7 @@ Requirements may be lowered after proper testing.
 ## Installation
 
 1. Back up any existing Field Groups as a precaution.
-1. Define `WP_ENV` as `local` on your local environment.
+1. Define `WP_ENV` as `local` on your local environment. (`wp-config-local.php` perhaps?)
 1. Download & activate ACF PRO.
 1. Download & activate ACF Agency Workflow.
 1. Set ACF local JSON load locations.
