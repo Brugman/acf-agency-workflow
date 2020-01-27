@@ -50,11 +50,32 @@ Requirements may be lowered after proper testing.
 
 Create an `acf-json` folder in your theme.
 
-## Set an ACF local JSON location in a plugin
+## Set an ACF local JSON location in a child theme
+
+Create an `acf-json` folder in your child theme.
+
+## Set an ACF local JSON location in a parent theme
+
+Add this code to your parent theme's `functions.php`.
 
 ```
 /**
- * ACF local JSON location.
+ * ACF Local JSON location for a parent theme.
+ */
+
+add_filter( 'acf/settings/load_json', function ( $paths ) {
+    $paths[] = get_template_directory().'/acf-json';
+    return $paths;
+});
+```
+
+## Set an ACF local JSON location in a plugin
+
+Add this code to your plugin's main file. (`plugin-name/plugin-name.php`)
+
+```
+/**
+ * ACF local JSON location for a plugin.
  */
 
 add_filter( 'acf/settings/load_json', function ( $paths ) {
