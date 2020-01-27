@@ -3,7 +3,7 @@
 /**
  * Plugin Name: ACF Agency Workflow
  * Description: Tweak ACF for a better team-based development workflow.
- * Version: 1.0.1
+ * Version: 1.1.0
  * Plugin URI: https://github.com/Brugman/acf-agency-workflow
  * Author: Tim Brugman
  * Author URI: https://timbr.dev/
@@ -134,13 +134,26 @@ add_action( 'acf/render_field_group_settings', function ( $field_group ) {
         if ( strpos( $load_dir, $path_to_plugins ) !== false )
             $display_title = 'Plugin: '.substr( str_replace( $path_to_plugins, '', $load_dir ), 1 );
         if ( strpos( $load_dir, $path_to_themes ) !== false )
-            $display_title = 'Theme: '.substr( str_replace( $path_to_themes, '', $load_dir ), 1 );
+        {
+            $label = 'Theme: ';
+            if ( is_child_theme() )
+            {
+                if ( strpos( $load_dir, get_stylesheet_directory() ) !== false )
+                    $label = 'Theme (child): ';
+                if ( strpos( $load_dir, get_template_directory() ) !== false )
+                    $label = 'Theme (parent): ';
+            }
+
+            $display_title = $label.substr( str_replace( $path_to_themes, '', $load_dir ), 1 );
+        }
 
         $choices[ $load_dir ] = $display_title;
 
         if ( file_exists( $load_dir.'/'.$field_group['key'].'.json' ) )
             $load_dir_selected = $load_dir;
     }
+
+    asort( $choices );
 
     acf_render_field_wrap([
         'label'        => 'JSON Save Path',
