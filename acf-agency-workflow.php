@@ -16,23 +16,6 @@ if ( !defined( 'ABSPATH' ) )
 include 'functions.php';
 
 /**
- * Display sync feedback.
- */
-
-$aaw_feedback = [];
-
-add_action( 'admin_notices', function () {
-
-    global $aaw_feedback;
-
-    if ( empty( $aaw_feedback ) )
-        return;
-
-    foreach ( $aaw_feedback as $feedback )
-        printf( '<div class="%1$s">%2$s</div>', 'notice notice-success', $feedback );
-});
-
-/**
  * Respond to JSON changes.
  */
 
@@ -193,6 +176,23 @@ add_filter( 'acf/prepare_field_group_for_export', function ( $field_group ) {
         unset( $field_group['json_save_path'] );
 
     return $field_group;
+});
+
+/**
+ * Display sync feedback.
+ */
+
+$aaw_feedback = [];
+
+add_action( 'admin_notices', function () {
+
+    global $aaw_feedback;
+
+    if ( empty( $aaw_feedback ) )
+        return;
+
+    foreach ( $aaw_feedback as $feedback )
+        printf( '<div class="%1$s">%2$s</div>', 'notice notice-success', $feedback );
 });
 
 /**
