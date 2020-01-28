@@ -15,24 +15,11 @@ if ( !defined( 'ABSPATH' ) )
 
 include 'functions.php';
 
+/**
+ * Display sync feedback.
+ */
+
 $aaw_feedback = [];
-
-/**
- * Change settings.
- */
-
-if ( !defined( 'WP_ENV' ) || WP_ENV != 'local' )
-{
-    if ( aaw_is_acf_active() )
-    {
-        // Hide the 'Custom fields' menu item.
-        add_filter( 'acf/settings/show_admin', '__return_false' );
-    }
-}
-
-/**
- * Admin notices.
- */
 
 add_action( 'admin_notices', function () {
 
