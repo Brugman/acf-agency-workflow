@@ -25,11 +25,8 @@ if ( !defined( 'WP_ENV' ) || WP_ENV != 'local' )
 {
     if ( aaw_is_acf_active() )
     {
-        add_action( 'acf/init', function () {
-            // https://www.advancedcustomfields.com/resources/acf-settings/
-            // Hide the 'Custom fields' menu item.
-            acf_update_setting( 'show_admin', false );
-        });
+        // Hide the 'Custom fields' menu item.
+        add_filter( 'acf/settings/show_admin', '__return_false' );
     }
 }
 
