@@ -195,3 +195,24 @@ add_filter( 'acf/prepare_field_group_for_export', function ( $field_group ) {
     return $field_group;
 });
 
+/**
+ * Display a warning in the Custom Fields backend.
+ */
+
+add_action( 'admin_notices', function () {
+
+    if ( !defined( 'WP_ENV' ) || WP_ENV == 'local' )
+        return;
+
+    if ( $_GET['post_type'] != 'acf-field-group' )
+        return;
+
+    if ( $_GET['page'] == 'acf-settings-updates' )
+        return;
+
+    $feedback = '';
+    $feedback .= '<p><strong>Non-local environment detected!</strong></p>';
+    $feedback .= '<p>You are not on a local development environment. Please do not add or edit Field Groups. If you do not know why this message is here, contact the developer who installed <em>ACF Agency Workflow</em> before continuing.</p>';
+    printf( '<div class="%1$s">%2$s</div>', 'notice notice-warning', $feedback );
+});
+
