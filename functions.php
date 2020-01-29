@@ -21,7 +21,7 @@ function aaw_act_on_added_json()
     $aaw_feedback['synced'] = '';
     if ( defined( 'WP_ENV' ) && WP_ENV == 'local' )
     {
-        $aaw_feedback['synced'] .= '<p>The following ACF Field Groups were synced from their JSON cache:</p>';
+        $aaw_feedback['synced'] .= '<p>'.__( 'The following ACF Field Groups were synced from their JSON cache:', 'acf-agency-workflow' ).'</p>';
         $aaw_feedback['synced'] .= '<ol>';
         foreach ( $synced_groups as $group )
             $aaw_feedback['synced'] .= '<li><a href="'.get_edit_post_link( $group['ID'] ).'">'.$group['title'].'</a></li>';
@@ -29,7 +29,7 @@ function aaw_act_on_added_json()
     }
     else
     {
-        $aaw_feedback['synced'] .= '<p>One or more ACF Field Groups were synced from their JSON cache.</p>';
+        $aaw_feedback['synced'] .= '<p>'.__( 'One or more ACF Field Groups were synced from their JSON cache.', 'acf-agency-workflow' ).'</p>';
     }
 }
 
@@ -104,7 +104,7 @@ function aaw_act_on_removed_json()
     aaw_delete_field_groups_from_db( $group_keys_delete_from_db );
 
     global $aaw_feedback;
-    $aaw_feedback['removed'] = '<p>One or more ACF Field Groups were removed because their JSON cache was removed.</p>';
+    $aaw_feedback['removed'] = '<p>'.__( 'One or more ACF Field Groups were removed because their JSON cache was removed.', 'acf-agency-workflow' ).'</p>';
 }
 
 function aaw_get_field_group_keys_from_db()

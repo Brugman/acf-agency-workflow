@@ -7,7 +7,6 @@
  * Plugin URI: https://github.com/Brugman/acf-agency-workflow
  * Author: Tim Brugman
  * Author URI: https://timbr.dev/
- * Text Domain: acf-agency-workflow
  */
 
 if ( !defined( 'ABSPATH' ) )
@@ -119,19 +118,19 @@ add_action( 'acf/render_field_group_settings', function ( $field_group ) {
     {
         $display_title = $load_dir;
         if ( strpos( $load_dir, $path_to_plugins ) !== false )
-            $display_title = 'Plugin: '.substr( str_replace( $path_to_plugins, '', $load_dir ), 1 );
+            $display_title = __( 'Plugin', 'acf-agency-workflow' ).': '.substr( str_replace( $path_to_plugins, '', $load_dir ), 1 );
         if ( strpos( $load_dir, $path_to_themes ) !== false )
         {
-            $label = 'Theme: ';
+            $label = __( 'Theme', 'acf-agency-workflow' );
             if ( is_child_theme() )
             {
                 if ( strpos( $load_dir, get_stylesheet_directory() ) !== false )
-                    $label = 'Theme (child): ';
+                    $label = __( 'Theme (child)', 'acf-agency-workflow' );
                 if ( strpos( $load_dir, get_template_directory() ) !== false )
-                    $label = 'Theme (parent): ';
+                    $label = __( 'Theme (parent)', 'acf-agency-workflow' );
             }
 
-            $display_title = $label.substr( str_replace( $path_to_themes, '', $load_dir ), 1 );
+            $display_title = $label.': '.substr( str_replace( $path_to_themes, '', $load_dir ), 1 );
         }
 
         $choices[ $load_dir ] = $display_title;
@@ -143,8 +142,8 @@ add_action( 'acf/render_field_group_settings', function ( $field_group ) {
     asort( $choices );
 
     acf_render_field_wrap([
-        'label'        => 'JSON Save Path',
-        'instructions' => 'Determines where the field group\'s JSON file will be saved.',
+        'label'        => __( 'JSON Save Path', 'acf-agency-workflow' ),
+        'instructions' => __( 'Where do you want the Field Group saved?', 'acf-agency-workflow' ),
         'type'         => 'select',
         'name'         => 'json_save_path',
         'prefix'       => 'acf_field_group',
