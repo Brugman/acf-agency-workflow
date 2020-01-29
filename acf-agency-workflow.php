@@ -114,6 +114,9 @@ add_action( 'acf/render_field_group_settings', function ( $field_group ) {
 
     $load_dirs = acf_get_setting('load_json');
 
+    if ( empty( $load_dirs ) )
+        return;
+
     foreach ( $load_dirs as $load_dir )
     {
         $display_title = $load_dir;
