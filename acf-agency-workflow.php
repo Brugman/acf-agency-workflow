@@ -107,7 +107,7 @@ add_filter( 'page_row_actions', function ( $actions, $post ) {
 
 add_action( 'acf/render_field_group_settings', function ( $field_group ) {
 
-    $choices = [ 'default' => 'Default' ];
+    $choices = [];
 
     $path_to_plugins = dirname( dirname( __FILE__ ) );
     $path_to_themes = dirname( get_stylesheet_directory() );
@@ -143,6 +143,8 @@ add_action( 'acf/render_field_group_settings', function ( $field_group ) {
     }
 
     asort( $choices );
+
+    $choices = [ 'default' => __( 'Default' ) ] + $choices;
 
     acf_render_field_wrap([
         'label'        => __( 'JSON Save Path', 'acf-agency-workflow' ),
