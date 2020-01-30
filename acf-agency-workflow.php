@@ -14,36 +14,6 @@ if ( !defined( 'ABSPATH' ) )
 
 include 'functions.php';
 
-$aaw_feedback = [];
-
-/**
- * Change settings.
- */
-
-if ( !defined( 'WP_ENV' ) || WP_ENV != 'local' )
-{
-    if ( aaw_is_acf_active() )
-    {
-        // Hide the 'Custom fields' menu item.
-        add_filter( 'acf/settings/show_admin', '__return_false' );
-    }
-}
-
-/**
- * Admin notices.
- */
-
-add_action( 'admin_notices', function () {
-
-    global $aaw_feedback;
-
-    if ( empty( $aaw_feedback ) )
-        return;
-
-    foreach ( $aaw_feedback as $feedback )
-        printf( '<div class="%1$s">%2$s</div>', 'notice notice-success', $feedback );
-});
-
 /**
  * Respond to JSON changes.
  */
@@ -210,5 +180,43 @@ add_filter( 'acf/prepare_field_group_for_export', function ( $field_group ) {
         unset( $field_group['json_save_path'] );
 
     return $field_group;
+});
+
+/**
+ * Display sync feedback.
+ */
+
+$aaw_feedback = [];
+
+add_action( 'admin_notices', function () {
+
+    global $aaw_feedback;
+
+    if ( empty( $aaw_feedback ) )
+        return;
+
+    foreach ( $aaw_feedback as $feedback )
+        printf( '<div class="%1$s">%2$s</div>', 'notice notice-success', $feedback );
+});
+
+/**
+ * Display a warning in the Custom Fields backend.
+ */
+
+add_action( 'admin_notices', function () {
+
+    if ( !defined( 'WP_ENV' ) || WP_ENV == 'local' )
+        return;
+
+    if ( $_GET['post_type'] != 'acf-field-group' )
+        return;
+
+    if ( $_GET['page'] == 'acf-settings-updates' )
+        return;
+
+    $feedback = '';
+    $feedback .= '<p><strong>'.__( 'Non-local environment detected!', 'acf-agency-workflow' ).'</strong></p>';
+    $feedback .= '<p>'.__( 'You are not on a local development environment. Please do not add or edit Field Groups. If you do not know why this message is here, contact the developer who installed <em>ACF Agency Workflow</em> before continuing.', 'acf-agency-workflow' ).'</p>';
+    printf( '<div class="%1$s">%2$s</div>', 'notice notice-warning', $feedback );
 });
 
