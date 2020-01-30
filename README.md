@@ -10,12 +10,6 @@ You already separate your website's looks from it's functionality. You should do
 
 You collaborate using git. So we've made the ACF JSON *cache* the source of truth. How? Your JSON files get forcefully synced to your database when an administrator loads the Dashboard or Field Groups page. If you've added, modified or deleted a field, then you have something to commit.
 
-### Fields are managed by developers on local with the Field Group Editor.
-
-We can't expect every staging and production server to have git. Nor can we expect people to push changes from a server to git. So to prevent needing to do that, we hide the ACF Field Groups interface entirely on any non-local environment.
-
-Developers manage the fields locally. Nobody else, nowhere else. Period. Your staging and production servers only *listen*, and sync your changes to their database, making them active.
-
 ## For your information
 
 - You can safely move existing Field Groups to a new location by editing them and setting a new JSON Save path.
