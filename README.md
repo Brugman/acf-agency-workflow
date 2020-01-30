@@ -56,6 +56,7 @@ Create an `acf-json` folder in your child theme.
 
 ## Set an ACF local JSON location in a parent theme
 
+Create an `acf-json` folder in your parent theme.
 Add this code to your parent theme's `functions.php`.
 
 ```
@@ -71,6 +72,7 @@ add_filter( 'acf/settings/load_json', function ( $paths ) {
 
 ## Set an ACF local JSON location in a plugin
 
+Create an `acf-json` folder in your plugin.
 Add this code to your plugin's main file. (`plugin-name/plugin-name.php`)
 
 ```
