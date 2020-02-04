@@ -2,8 +2,8 @@
 
 /**
  * Plugin Name: ACF Agency Workflow
- * Description: Tweak ACF for a better team-based development workflow.
- * Version: 1.1.0
+ * Description: Create, move, distribute and sync your Field Groups as JSON.
+ * Version: 1.2.0
  * Plugin URI: https://github.com/Brugman/acf-agency-workflow
  * Author: Tim Brugman
  * Author URI: https://timbr.dev/
