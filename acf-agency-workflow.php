@@ -3,7 +3,7 @@
 /**
  * Plugin Name: ACF Agency Workflow
  * Description: Create, move, distribute and sync your Field Groups as JSON.
- * Version: 1.2.0
+ * Version: 1.2.1
  * Plugin URI: https://github.com/Brugman/acf-agency-workflow
  * Author: Tim Brugman
  * Author URI: https://timbr.dev/
@@ -208,10 +208,10 @@ add_action( 'admin_notices', function () {
     if ( !defined( 'WP_ENV' ) || WP_ENV == 'local' )
         return;
 
-    if ( $_GET['post_type'] != 'acf-field-group' )
+    if ( !isset( $_GET['post_type'] ) || $_GET['post_type'] != 'acf-field-group' )
         return;
 
-    if ( $_GET['page'] == 'acf-settings-updates' )
+    if ( isset( $_GET['page'] ) && $_GET['page'] == 'acf-settings-updates' )
         return;
 
     $feedback = '';
