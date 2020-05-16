@@ -205,7 +205,10 @@ add_action( 'admin_notices', function () {
 
 add_action( 'admin_notices', function () {
 
-    if ( !defined( 'WP_ENV' ) || WP_ENV == 'local' )
+    if ( !defined( 'WP_ENV' ) )
+        return;
+
+    if ( aaw_env_is_dev() )
         return;
 
     if ( !isset( $_GET['post_type'] ) || $_GET['post_type'] != 'acf-field-group' )
