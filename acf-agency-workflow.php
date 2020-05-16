@@ -218,8 +218,8 @@ add_action( 'admin_notices', function () {
         return;
 
     $feedback = '';
-    $feedback .= '<p><strong>'.__( 'Non-local environment detected!', 'acf-agency-workflow' ).'</strong></p>';
-    $feedback .= '<p>'.__( 'You are not on a local development environment. Please do not add or edit Field Groups. If you do not know why this message is here, contact the developer who installed <em>ACF Agency Workflow</em> before continuing.', 'acf-agency-workflow' ).'</p>';
+    $feedback .= '<p><strong>'.__( 'Non-development environment detected!', 'acf-agency-workflow' ).'</strong></p>';
+    $feedback .= '<p>'.__( 'You are not on a development environment. Please do not add or edit Field Groups. If you do not know why this message is here, contact the developer who installed <em>ACF Agency Workflow</em> before continuing.', 'acf-agency-workflow' ).'</p>';
     printf( '<div class="%1$s">%2$s</div>', 'notice notice-warning', $feedback );
 });
 
