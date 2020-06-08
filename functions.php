@@ -52,7 +52,7 @@ function aaw_requirements_are_met()
 function aaw_env_is_dev()
 {
     if ( !defined( 'WP_ENV' ) )
-        return false;
+        return true;
 
     $local_envs = [
         'local',
