@@ -1,5 +1,54 @@
 <?php
 
+function aaw_unmet_requirements()
+{
+    $unmet_reqs = [];
+
+    /**
+     * WP_ENV.
+     */
+
+    if ( !defined( 'WP_ENV' ) )
+        $unmet_reqs[] = 'WP_ENV is not defined.';
+
+    /**
+     * Missing local JSON locations.
+     */
+
+    $load_dirs = acf_get_setting('load_json');
+
+    if ( !empty( $load_dirs ) )
+    {
+        $missing_load_dirs = array_filter( $load_dirs, function ( $dir ) {
+            return !file_exists( $dir );
+        });
+
+        if ( !empty( $missing_load_dirs ) )
+        {
+            $wp_content_path = str_replace( '\\', '/', dirname( dirname( dirname( __FILE__ ) ) ) );
+
+            foreach ( $missing_load_dirs as &$dir )
+            {
+                $dir = str_replace( '\\', '/', $dir.'/' );
+                $dir = explode( $wp_content_path, $dir )[1];
+                $dir = '<strong>'.$dir.'</strong>';
+            }
+
+            $unmet_reqs[] = 'ACF local JSON locations are missing: '.implode( ' and ', $missing_load_dirs );
+        }
+    }
+
+    return $unmet_reqs;
+}
+
+function aaw_requirements_are_met()
+{
+    if ( !empty( aaw_unmet_requirements() ) )
+        return false;
+
+    return true;
+}
+
 function aaw_env_is_dev()
 {
     if ( !defined( 'WP_ENV' ) )
