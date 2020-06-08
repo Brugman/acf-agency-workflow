@@ -183,7 +183,7 @@ add_filter( 'acf/prepare_field_group_for_export', function ( $field_group ) {
 });
 
 /**
- * Display sync feedback.
+ * Notice: Sync feedback.
  */
 
 $aaw_feedback = [];
@@ -200,7 +200,27 @@ add_action( 'admin_notices', function () {
 });
 
 /**
- * Display a warning in the Custom Fields backend.
+ * Notice: Requirements not met.
+ */
+
+add_action( 'admin_notices', function () {
+
+    $unmet_reqs = aaw_unmet_requirements();
+
+    if ( empty( $unmet_reqs ) )
+        return;
+
+    $feedback = '';
+    $feedback .= '<p><strong>'.__( 'ACF Agency Workflow is not ready!', 'acf-agency-workflow' ).'</strong></p>';
+    $feedback .= '<ol>';
+    foreach ( $unmet_reqs as $unmet_req )
+        $feedback .= '<li>'.__( $unmet_req, 'acf-agency-workflow' ).'</li>';
+    $feedback .= '</ol>';
+    printf( '<div class="%1$s">%2$s</div>', 'notice notice-warning', $feedback );
+});
+
+/**
+ * Notice: Non-development environment.
  */
 
 add_action( 'admin_notices', function () {
