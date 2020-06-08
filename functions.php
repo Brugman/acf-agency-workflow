@@ -1,5 +1,25 @@
 <?php
 
+function aaw_env_is_dev()
+{
+    if ( !defined( 'WP_ENV' ) )
+        return false;
+
+    $local_envs = [
+        'local',
+        'dev',
+        'develop',
+        'development',
+    ];
+
+    $local_envs = apply_filters( 'aaw_local_envs', $local_envs );
+
+    if ( in_array( WP_ENV, $local_envs ) )
+        return true;
+
+    return false;
+}
+
 function aaw_is_acf_active()
 {
     if ( in_array( 'advanced-custom-fields-pro/acf.php', get_option( 'active_plugins' ) ) )
@@ -19,7 +39,7 @@ function aaw_act_on_added_json()
 
     global $aaw_feedback;
     $aaw_feedback['synced'] = '';
-    if ( defined( 'WP_ENV' ) && WP_ENV == 'local' )
+    if ( aaw_env_is_dev() )
     {
         $aaw_feedback['synced'] .= '<p>'.__( 'The following ACF Field Groups were synced from their JSON cache:', 'acf-agency-workflow' ).'</p>';
         $aaw_feedback['synced'] .= '<ol>';
