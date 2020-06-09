@@ -240,3 +240,23 @@ add_action( 'admin_notices', function () {
     printf( '<div class="%1$s">%2$s</div>', 'notice notice-warning', $feedback );
 });
 
+/**
+ * Notice: New version available.
+ */
+
+add_action( 'admin_notices', function () {
+
+    global $pagenow;
+
+    if ( $pagenow != 'plugins.php' )
+        return;
+
+    if ( !aaw_new_version_available() )
+        return;
+
+    $feedback = '';
+    $feedback .= '<p><strong>'.__( 'ACF Agency Workflow is outdated.', 'acf-agency-workflow' ).'</strong></p>';
+    $feedback .= '<p>'.__( 'You can grab <a href="https://github.com/Brugman/acf-agency-workflow/releases" target="_blank">the latest version on GitHub</a>.', 'acf-agency-workflow' ).'</p>';
+    printf( '<div class="%1$s">%2$s</div>', 'notice notice-warning', $feedback );
+});
+

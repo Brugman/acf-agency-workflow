@@ -250,3 +250,32 @@ function aaw_delete_field_group_from_json( $key = false )
     }
 }
 
+function aaw_current_version()
+{
+    return get_plugin_data( __FILE__, false, false )['Version'];
+}
+
+function aaw_latest_version()
+{
+    $data = @file_get_contents('https://timbr.dev/not-existing-url/');
+
+    if ( empty( $data ) )
+        return false;
+
+    return json_decode( $data, true );
+}
+
+function aaw_new_version_available()
+{
+    $current = aaw_current_version();
+    $latest = aaw_latest_version();
+
+    if ( !$latest )
+        return false;
+
+    if ( version_compare( $latest, $current ) > 0 )
+        return true;
+
+    return false;
+}
+
