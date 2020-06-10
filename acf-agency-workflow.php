@@ -90,8 +90,12 @@ add_action( 'acf/render_field_group_settings', function ( $field_group ) {
     foreach ( $load_dirs as $load_dir )
     {
         $display_title = $load_dir;
+
         if ( strpos( $load_dir, $path_to_plugins ) !== false )
+        {
             $display_title = __( 'Plugin', 'acf-agency-workflow' ).': '.substr( str_replace( $path_to_plugins, '', $load_dir ), 1 );
+        }
+
         if ( strpos( $load_dir, $path_to_themes ) !== false )
         {
             $label = __( 'Theme', 'acf-agency-workflow' );
@@ -99,6 +103,7 @@ add_action( 'acf/render_field_group_settings', function ( $field_group ) {
             {
                 if ( strpos( $load_dir, get_stylesheet_directory() ) !== false )
                     $label = __( 'Theme (child)', 'acf-agency-workflow' );
+
                 if ( strpos( $load_dir, get_template_directory() ) !== false )
                     $label = __( 'Theme (parent)', 'acf-agency-workflow' );
             }
