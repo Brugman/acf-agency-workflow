@@ -114,15 +114,13 @@ add_action( 'acf/render_field_group_settings', function ( $field_group ) {
 
     asort( $choices );
 
-    $choices = [ 'default' => __( 'Default' ) ] + $choices;
-
     acf_render_field_wrap([
         'label'        => __( 'JSON Save Path', 'acf-agency-workflow' ),
         'instructions' => __( 'Where do you want the Field Group saved?', 'acf-agency-workflow' ),
         'type'         => 'select',
         'name'         => 'json_save_path',
         'prefix'       => 'acf_field_group',
-        'value'        => $load_dir_selected ?? 'default',
+        'value'        => $load_dir_selected ?? '',
         'choices'      => $choices,
     ]);
 });
@@ -153,6 +151,18 @@ add_action( 'acf/update_field_group', function ( $field_group ) {
     return $field_group;
 
 }, 1, 1 );
+
+/**
+ * Remove locations that don't exist.
+ */
+
+add_filter( 'acf/settings/load_json', function ( $paths ) {
+
+    return array_filter( $paths, function ( $path ) {
+        return file_exists( $path );
+    });
+
+}, 20, 1 );
 
 /**
  * Set selected JSON save location.
