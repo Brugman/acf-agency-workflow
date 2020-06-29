@@ -250,3 +250,47 @@ function aaw_delete_field_group_from_json( $key = false )
     }
 }
 
+function aaw_plugin_main_file()
+{
+    return dirname( __FILE__ ).'/acf-agency-workflow.php';
+}
+
+function aaw_current_version()
+{
+    return get_plugin_data( aaw_plugin_main_file(), false, false )['Version'];
+}
+
+function aaw_latest_version()
+{
+    $repo = 'acf-agency-workflow';
+    $latest_version_service = 'https://github-repo-latest-version.timbr.dev/';
+
+    $remote_data = @file_get_contents( $latest_version_service.$repo );
+
+    if ( !$remote_data )
+        return false;
+
+    $remote_data = json_decode( $remote_data, true );
+
+    if ( isset( $remote_data['error'] ) )
+        return false;
+
+    return $remote_data;
+}
+
+function aaw_new_version_available()
+{
+    $current_version = aaw_current_version();
+    $latest_version_data = aaw_latest_version();
+
+    if ( !$latest_version_data )
+        return false;
+
+    $latest_version = $latest_version_data['version'];
+
+    if ( version_compare( $latest_version, $current_version ) > 0 )
+        return $latest_version_data;
+
+    return false;
+}
+
