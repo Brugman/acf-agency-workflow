@@ -1,10 +1,19 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [1.3.0] - 2020-06-29
+### Fixed
+- Fixed displaying JSON locations that are not available.
 
-## [Unreleased]
+### Added
+- Added multiple WP_ENV values that are considered a development environment.
+- Added a filter for users to add even more values.
+- Added a requirement check: A WP_ENV must be defined.
+- Added a requirement check: Set JSON locations must exist.
+- Added an update check on the plugins page.
+
+### Removed
+- Removed the 'Default' JSON Save Path option.
 
 ## [1.2.1] - 2020-03-04
 ### Fixed
