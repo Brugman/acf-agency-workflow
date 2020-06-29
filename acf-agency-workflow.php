@@ -251,12 +251,25 @@ add_action( 'admin_notices', function () {
     if ( $pagenow != 'plugins.php' )
         return;
 
-    if ( !aaw_new_version_available() )
+    $new_version = aaw_new_version_available();
+
+    if ( !$new_version )
         return;
 
     $feedback = '';
-    $feedback .= '<p><strong>'.__( 'ACF Agency Workflow is outdated.', 'acf-agency-workflow' ).'</strong></p>';
-    $feedback .= '<p>'.__( 'You can grab <a href="https://github.com/Brugman/acf-agency-workflow/releases" target="_blank">the latest version on GitHub</a>.', 'acf-agency-workflow' ).'</p>';
+    $feedback .= '<p><strong>There is a new version of ACF Agency Workflow available.</strong></p>';
+
+    if ( aaw_env_is_dev() )
+    {
+        $feedback .= '<p>Current version: <strong>'.aaw_current_version().'</strong>, latest version: <strong>'.$new_version['version'].'</strong>.</p>';
+        $feedback .= '<p>Find out what\'s new in the <a href="https://github.com/Brugman/acf-agency-workflow/blob/develop/CHANGELOG.md" target="_blank">changelog</a>.</p>';
+        $feedback .= '<p>Updating has to be done manually. Download the <a href="'.$new_version['zip'].'">ZIP file</a> or <a href="'.$new_version['tar'].'">tarball</a>, and replace the contents of the plugin folder. Or <code>git pull</code> from inside the plugin\'s directory.</p>';
+    }
+    else
+    {
+        $feedback .= '<p>Please ask your website developer to perform the update.</p>';
+    }
+
     printf( '<div class="%1$s">%2$s</div>', 'notice notice-warning', $feedback );
 });
 
