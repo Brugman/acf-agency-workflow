@@ -294,3 +294,27 @@ function aaw_new_version_available()
     return false;
 }
 
+function aaw_log_file()
+{
+    return dirname( __FILE__ ).'/action.log';
+}
+
+function aaw_log_action( $desc = false )
+{
+    if ( !$desc )
+        return;
+
+    if ( !aaw_env_is_dev() )
+        return;
+
+    if ( !file_exists( aaw_log_file() ) )
+        file_put_contents( aaw_log_file(), '' );
+
+    if ( !file_exists( aaw_log_file() ) )
+        return;
+
+    $desc = "\n".wp_date( 'Y-m-d H:i:s' ).' | '.$desc;
+
+    file_put_contents( aaw_log_file(), $desc, FILE_APPEND | LOCK_EX );
+}
+
