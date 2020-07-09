@@ -79,10 +79,14 @@ function aaw_is_acf_active()
 
 function aaw_act_on_added_json()
 {
+    aaw_log_action( 'Function: aaw_act_on_added_json' );
+
     $unsynced_groups = aaw_get_unsynced_field_groups();
 
     if ( empty( $unsynced_groups ) )
         return;
+
+    aaw_log_action( 'There are unsynced groups.' );
 
     $synced_groups = aaw_sync_field_groups( $unsynced_groups );
 
@@ -104,11 +108,15 @@ function aaw_act_on_added_json()
 
 function aaw_get_unsynced_field_groups()
 {
+    aaw_log_action( 'Function: aaw_get_unsynced_field_groups' );
+
     // Get all FGs, also the unsynced json ones.
     $groups = acf_get_field_groups();
     // No FGs? No sync needed.
     if ( empty( $groups ) )
         return false;
+
+    aaw_log_action( 'There are some field groups.' );
 
     $unsynced_groups = [];
 
@@ -124,24 +132,39 @@ function aaw_get_unsynced_field_groups()
             continue;
         // No id? Sync needed!
         if ( !$group['ID'] )
+        {
+            aaw_log_action( 'A field group has no ID, so it needs syncing.' );
             $unsynced_groups[ $group['key'] ] = $group;
+        }
         // Has ID, but modified date is newer than the db? Sync needed!
         if ( $group['ID'] && $group['modified'] && $group['modified'] > get_post_modified_time( 'U', true, $group['ID'], true ) )
+        {
+            aaw_log_action( 'A field group has a newer modified date than the db, so it needs syncing.' );
             $unsynced_groups[ $group['key'] ] = $group;
+        }
     }
     // Empty sync list? No sync needed.
     if ( empty( $unsynced_groups ) )
+    {
+        aaw_log_action( 'We checked all field groups. No unsynced found.' );
         return false;
+    }
+
+    aaw_log_action( 'We checked all field groups. Some unsynced found.' );
 
     return $unsynced_groups;
 }
 
 function aaw_sync_field_groups( $unsynced_groups = [] )
 {
+    aaw_log_action( 'Function: aaw_sync_field_groups' );
+
     // Required stuff copied from ACF.
     acf_disable_filters();
     acf_enable_filter( 'local' );
     acf_update_setting( 'json', false );
+
+    aaw_log_action( 'Some ACF magic happened.' );
 
     $synced_groups = [];
 
@@ -151,6 +174,8 @@ function aaw_sync_field_groups( $unsynced_groups = [] )
         $group['fields'] = acf_get_fields( $group );
         // Sync.
         $synced_groups[] = acf_import_field_group( $group );
+
+        aaw_log_action( 'A field group was synced.' );
     }
 
     return $synced_groups;
@@ -158,17 +183,29 @@ function aaw_sync_field_groups( $unsynced_groups = [] )
 
 function aaw_act_on_removed_json()
 {
+    aaw_log_action( 'Function: aaw_act_on_removed_json' );
+
     $group_keys_db = aaw_get_field_group_keys_from_db();
 
     if ( empty( $group_keys_db ) )
+    {
+        aaw_log_action( 'There are no field group keys in the DB.' );
+
         return;
+    }
 
     $group_keys_json = aaw_get_field_group_keys_from_json();
 
     $group_keys_delete_from_db = array_diff( $group_keys_db, $group_keys_json );
 
     if ( empty( $group_keys_delete_from_db ) )
+    {
+        aaw_log_action( 'The JSON and DB have the same field groups.' );
+
         return;
+    }
+
+    aaw_log_action( 'The DB has field groups that are not in the JSON.' );
 
     aaw_delete_field_groups_from_db( $group_keys_delete_from_db );
 
@@ -178,6 +215,8 @@ function aaw_act_on_removed_json()
 
 function aaw_get_field_group_keys_from_db()
 {
+    aaw_log_action( 'Function: aaw_get_field_group_keys_from_db' );
+
     $post_ids = get_posts([
         'post_type'      => 'acf-field-group',
         'posts_per_page' => -1,
@@ -187,6 +226,8 @@ function aaw_get_field_group_keys_from_db()
 
     if ( empty( $post_ids ) )
         return [];
+
+    aaw_log_action( 'There are field groups in the DB.' );
 
     $keys = [];
 
@@ -198,6 +239,8 @@ function aaw_get_field_group_keys_from_db()
 
 function aaw_get_field_group_keys_from_json()
 {
+    aaw_log_action( 'Function: aaw_get_field_group_keys_from_json' );
+
     $load_dirs = acf_get_setting('load_json');
 
     if ( empty( $load_dirs ) )
@@ -220,22 +263,35 @@ function aaw_get_field_group_keys_from_json()
         }
     }
 
+    if ( !empty( $keys ) )
+        aaw_log_action( 'There are field groups in the JSON.' );
+
     return $keys;
 }
 
 function aaw_delete_field_groups_from_db( $keys = [] )
 {
+    aaw_log_action( 'Function: aaw_delete_field_groups_from_db' );
+
     if ( empty( $keys ) )
         return;
 
     foreach ( $keys as $key )
+    {
         acf_delete_field_group( $key );
+
+        aaw_log_action( 'A field group was deleted from the db.' );
+    }
 }
 
 function aaw_delete_field_group_from_json( $key = false )
 {
+    aaw_log_action( 'Function: aaw_delete_field_group_from_json' );
+
     if ( !$key )
         return;
+
+    aaw_log_action( 'A field group is about to be deleted from the JSON.' );
 
     $load_dirs = acf_get_setting('load_json');
 
@@ -246,7 +302,11 @@ function aaw_delete_field_group_from_json( $key = false )
     {
         $current_path = $load_dir.'/'.$key.'.json';
         if ( file_exists( $current_path ) )
+        {
             unlink( $current_path );
+
+            aaw_log_action( 'The field group was found and deleted from the JSON.' );
+        }
     }
 }
 
