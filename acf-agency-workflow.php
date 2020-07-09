@@ -20,6 +20,8 @@ include 'functions.php';
 
 add_action( 'admin_init', function () {
 
+    aaw_log_action( 'Closure on hook: admin_init' );
+
     // Require ACF Pro.
     if ( !aaw_is_acf_active() )
         return;
@@ -49,6 +51,9 @@ add_action( 'admin_init', function () {
  */
 
 add_action( 'acf/delete_field_group', function ( $field_group ) {
+
+    aaw_log_action( 'Closure on hook: acf/delete_field_group' );
+
     // Delete field group from JSON.
     aaw_delete_field_group_from_json( $field_group['key'] );
 });
@@ -58,6 +63,8 @@ add_action( 'acf/delete_field_group', function ( $field_group ) {
  */
 
 add_filter( 'page_row_actions', function ( $actions, $post ) {
+
+    aaw_log_action( 'Closure on hook: page_row_actions' );
 
     if ( $post->post_type == 'acf-field-group' )
     {
@@ -76,6 +83,8 @@ add_filter( 'page_row_actions', function ( $actions, $post ) {
  */
 
 add_action( 'acf/render_field_group_settings', function ( $field_group ) {
+
+    aaw_log_action( 'Closure on hook: acf/render_field_group_settings' );
 
     $choices = [];
 
@@ -138,6 +147,8 @@ $global_preferred_save_path = false;
 
 add_action( 'acf/update_field_group', function ( $field_group ) {
 
+    aaw_log_action( 'Closure on hook: acf/update_field_group' );
+
     // Skip everything if this is not a FGE location move.
     if ( !isset( $field_group['json_save_path'] ) )
         return $field_group;
@@ -163,6 +174,8 @@ add_action( 'acf/update_field_group', function ( $field_group ) {
 
 add_filter( 'acf/settings/load_json', function ( $paths ) {
 
+    aaw_log_action( 'Closure on hook: acf/settings/load_json' );
+
     return array_filter( $paths, function ( $path ) {
         return file_exists( $path );
     });
@@ -174,6 +187,8 @@ add_filter( 'acf/settings/load_json', function ( $paths ) {
  */
 
 add_action( 'acf/settings/save_json', function ( $path ) {
+
+    aaw_log_action( 'Closure on hook: acf/settings/save_json' );
 
     global $global_preferred_save_path;
 
@@ -190,6 +205,8 @@ add_action( 'acf/settings/save_json', function ( $path ) {
  */
 
 add_filter( 'acf/prepare_field_group_for_export', function ( $field_group ) {
+
+    aaw_log_action( 'Closure on hook: acf/prepare_field_group_for_export' );
 
     if ( isset( $field_group['json_save_path'] ) )
         unset( $field_group['json_save_path'] );
@@ -212,6 +229,8 @@ add_action( 'admin_notices', function () {
 
     foreach ( $aaw_feedback as $feedback )
         printf( '<div class="%1$s">%2$s</div>', 'notice notice-success', $feedback );
+
+    aaw_log_action( 'Displayed admin notice: Sync feedback given.' );
 });
 
 /**
@@ -232,6 +251,8 @@ add_action( 'admin_notices', function () {
         $feedback .= '<li>'.__( $unmet_req, 'acf-agency-workflow' ).'</li>';
     $feedback .= '</ol>';
     printf( '<div class="%1$s">%2$s</div>', 'notice notice-warning', $feedback );
+
+    aaw_log_action( 'Displayed admin notice: Unmet requirements.' );
 });
 
 /**
@@ -286,5 +307,7 @@ add_action( 'admin_notices', function () {
     }
 
     printf( '<div class="%1$s">%2$s</div>', 'notice notice-warning', $feedback );
+
+    aaw_log_action( 'Displayed admin notice: New version available. ('.aaw_current_version().' -> '.$new_version['version'].')' );
 });
 
