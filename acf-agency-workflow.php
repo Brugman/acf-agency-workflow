@@ -20,7 +20,7 @@ include 'functions.php';
 
 add_action( 'admin_init', function () {
 
-    aaw_log_action( 'Closure on hook: admin_init' );
+    // aaw_log_action( 'Closure on hook: admin_init' );
 
     // Require ACF Pro.
     if ( !aaw_is_acf_active() )
@@ -53,6 +53,7 @@ add_action( 'admin_init', function () {
 add_action( 'acf/delete_field_group', function ( $field_group ) {
 
     aaw_log_action( 'Closure on hook: acf/delete_field_group' );
+    aaw_log_action( 'Respond to Field Group Editor changes.' );
 
     // Delete field group from JSON.
     aaw_delete_field_group_from_json( $field_group['key'] );
@@ -64,7 +65,7 @@ add_action( 'acf/delete_field_group', function ( $field_group ) {
 
 add_filter( 'page_row_actions', function ( $actions, $post ) {
 
-    aaw_log_action( 'Closure on hook: page_row_actions' );
+    // aaw_log_action( 'Closure on hook: page_row_actions' );
 
     if ( $post->post_type == 'acf-field-group' )
     {
@@ -84,7 +85,7 @@ add_filter( 'page_row_actions', function ( $actions, $post ) {
 
 add_action( 'acf/render_field_group_settings', function ( $field_group ) {
 
-    aaw_log_action( 'Closure on hook: acf/render_field_group_settings' );
+    // aaw_log_action( 'Closure on hook: acf/render_field_group_settings' );
 
     $choices = [];
 
@@ -148,6 +149,7 @@ $global_preferred_save_path = false;
 add_action( 'acf/update_field_group', function ( $field_group ) {
 
     aaw_log_action( 'Closure on hook: acf/update_field_group' );
+    aaw_log_action( 'Get selected JSON save location.' );
 
     // Skip everything if this is not a FGE location move.
     if ( !isset( $field_group['json_save_path'] ) )
@@ -175,6 +177,7 @@ add_action( 'acf/update_field_group', function ( $field_group ) {
 add_filter( 'acf/settings/load_json', function ( $paths ) {
 
     aaw_log_action( 'Closure on hook: acf/settings/load_json' );
+    aaw_log_action( 'Remove load_json locations that dont exist.' );
 
     return array_filter( $paths, function ( $path ) {
         return file_exists( $path );
@@ -189,6 +192,7 @@ add_filter( 'acf/settings/load_json', function ( $paths ) {
 add_action( 'acf/settings/save_json', function ( $path ) {
 
     aaw_log_action( 'Closure on hook: acf/settings/save_json' );
+    aaw_log_action( 'Set selected JSON save location.' );
 
     global $global_preferred_save_path;
 
@@ -207,6 +211,7 @@ add_action( 'acf/settings/save_json', function ( $path ) {
 add_filter( 'acf/prepare_field_group_for_export', function ( $field_group ) {
 
     aaw_log_action( 'Closure on hook: acf/prepare_field_group_for_export' );
+    aaw_log_action( 'Remove save path value before it gets written to JSON.' );
 
     if ( isset( $field_group['json_save_path'] ) )
         unset( $field_group['json_save_path'] );
