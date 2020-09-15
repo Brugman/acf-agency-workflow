@@ -97,6 +97,6 @@ Found a bug? Anything you'd like to ask, add, change, or have added or changed? 
 
 The author(s) are not responsible for lost fields or other data. This plugin deletes things, so it can be dangerous. Backups are a good idea. Git can be your backup too.
 
-## License
+## Author
 
-[MIT](/LICENSE) &copy; [Tim Brugman](https://timbr.dev/)
+[Tim Brugman](https://github.com/Brugman)
