@@ -262,7 +262,7 @@ function aaw_current_version()
 
 function aaw_latest_version()
 {
-    $repo = 'acf-agency-workflow';
+    $repo = 'Brugman/acf-agency-workflow';
     $latest_version_service = 'https://github-repo-latest-version.timbr.dev/';
 
     $remote_data = @file_get_contents( $latest_version_service.$repo );
